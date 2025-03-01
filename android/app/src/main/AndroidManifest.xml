@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <meta-data
+    android:name="com.google.android.geo.API_KEY"
+    android:value="DrfAhzFvZPsGZK6XjIZQN1P7FgEyJd485De3prL5deI"/>
     <application
         android:label="event_creation"
         android:name="${applicationName}"

@@ -9,8 +9,10 @@ import 'package:event_creation/View/Advance.dart';
 import 'package:event_creation/View/Event_catagory.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -28,6 +30,48 @@ class _HomeState extends State<Home> {
   String selecttime = '';
   String selectdate = "";
   String category = 'Photo';
+  String _mapTileUrl = "";
+  int _zoomlevel=30;
+  int _x=1400;
+  int _y=2660;
+  // fetch map
+  Future<void> _fetchMapTile() async {
+    final String apiKey =
+        "DrfAhzFvZPsGZK6XjIZQN1P7FgEyJd485De3prL5deI"; // Replace with your HERE API key
+    final String url =
+        """https://router.hereapi.com/v8/routes?
+        transportMode=car&origin=52.5308,13.3847&destination=52.5264,13.3686&return=summary&apikey=DrfAhzFvZPsGZK6XjIZQN1P7FgEyJd485De3prL5deI""";
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      setState(() {
+        print(response);
+        _mapTileUrl = url;
+      });
+    }
+    else{
+
+    }
+  }
+  // for zoom in 
+  void _zoomin(){
+    setState(() {
+      if(_zoomlevel<20){
+      _zoomlevel++;
+    }
+    });
+    _fetchMapTile();
+  }
+  // for zoom out
+  void _zoomOut() {
+    setState(() {
+      if (_zoomlevel > 0) { // Minimum zoom level
+        _zoomlevel--;
+      }
+    });
+    _fetchMapTile();
+  }
   File? mediaFile; // File to store image or video
   final ImagePicker picker = ImagePicker();
 
@@ -75,6 +119,12 @@ class _HomeState extends State<Home> {
         selecttime = formattime;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMapTile();
   }
 
   @override
@@ -175,123 +225,292 @@ class _HomeState extends State<Home> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, top: 5.0),
-                    child: Column(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 180.0,
-                              height: 30.0,
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFBDC3C7),
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        left: 10.0, bottom: 10.0),
-                                    hintText: 'Street Address',
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                    )),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 180.0,
+                                  height: 30.0,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFBDC3C7),
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(
+                                            left: 10.0, bottom: 10.0),
+                                        hintText: 'Street Address',
+                                        hintStyle: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        border: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: heght * 0.01,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: widt * 0.22,
+                                  height: heght * 0.04,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFBDC3C7),
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(
+                                            left: 10.0, bottom: 10.0),
+                                        hintText: 'City',
+                                        hintStyle: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        border: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        )),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: widt * 0.02,
+                                ),
+                                Container(
+                                  width: widt * 0.22,
+                                  height: heght * 0.04,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFBDC3C7),
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(
+                                            left: 10.0, bottom: 10.0),
+                                        hintText: 'Postal Code',
+                                        hintStyle: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        border: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: heght * 0.01,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: widt * 0.22,
+                                  height: heght * 0.04,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFBDC3C7),
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(
+                                            left: 10.0, bottom: 10.0),
+                                        hintText: 'State',
+                                        hintStyle: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        border: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        )),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: widt * 0.02,
+                                ),
+                                Container(
+                                  width: widt * 0.22,
+                                  height: heght * 0.04,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFBDC3C7),
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(
+                                            left: 10.0, bottom: 10.0),
+                                        hintText: 'Country',
+                                        hintStyle: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        border: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        )),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: heght * 0.01,
+                          width: widt * 0.03,
                         ),
-                        Row(
-                          children: [
-                            Container(
-                              width: widt * 0.22,
-                              height: heght * 0.04,
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFBDC3C7),
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        left: 10.0, bottom: 10.0),
-                                    hintText: 'City',
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
+                        Expanded(
+                          child: Padding(
+                              padding: const EdgeInsets.only(right: 7.0),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: widt * 0.5,
+                                    height: heght * 0.14,
+                                    child: _mapTileUrl.isEmpty
+                                        ? CircularProgressIndicator()
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            child: Image.network(
+                                              _mapTileUrl,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                  ),
+                                  Positioned(
+                                    left: 140.0,
+                                    top: 20.0,
+                                    child: Column(
+                                      children: [
+                                        IconButton(
+                                          onPressed: (){
+                                            _zoomin();
+                                          },
+                                           icon: Icon(Icons.zoom_in_map,color: Color(0xFF33495D),)),
+                                           IconButton(
+                                            onPressed: (){
+                                              _zoomOut();
+                                            },
+                                             icon:Icon(Icons.zoom_out_map,color: Color(0xFF33495D),))
+                                      ],
                                     ),
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                    )),
-                              ),
+                                  ),
+                                ],
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Category
+                ],
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text("Select Category",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    )),
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Row(
+                      children: [
+                        ChoiceChip(
+                          label: Text(
+                            "Photo",
+                            style: TextStyle(
+                              color: category == 'Photo'
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
-                            SizedBox(
-                              width: widt * 0.02,
-                            ),
-                            Container(
-                              width: widt * 0.22,
-                              height: heght * 0.04,
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFBDC3C7),
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        left: 10.0, bottom: 10.0),
-                                    hintText: 'Postal Code',
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                    )),
-                              ),
-                            ),
-                          ],
+                          ),
+                          showCheckmark: false,
+                          selected: category == 'Photo',
+                          selectedColor: Colors.green,
+                          backgroundColor: Color(0xFFBDC3C7),
+                          labelPadding: EdgeInsets.symmetric(
+                            horizontal: 15.0,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0),
+                            side: BorderSide(
+                                color: category == 'Photo'
+                                    ? Colors.green
+                                    : Colors.transparent),
+                          ),
+                          onSelected: (bool selected) {
+                            setState(() {
+                              category = 'Photo';
+                            });
+                          },
                         ),
                         SizedBox(
-                          height: heght * 0.01,
+                          width: widt * 0.02,
+                        ),
+                        ChoiceChip(
+                          label: Text(
+                            "Video",
+                            style: TextStyle(
+                              color: category == 'Video'
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                          showCheckmark: false,
+                          selected: category == 'Video',
+                          selectedColor: Colors.green,
+                          backgroundColor: Color(0xFFBDC3C7),
+                          labelPadding: EdgeInsets.symmetric(
+                            horizontal: 15.0,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          onSelected: (bool selected) {
+                            setState(() {
+                              category = 'Video';
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          width: widt * 0.03,
                         ),
                         Row(
                           children: [
                             Container(
-                              width: widt * 0.22,
-                              height: heght * 0.04,
+                              width: widt * 0.48,
+                              height: heght * 0.1,
                               decoration: BoxDecoration(
-                                  color: Color(0xFFBDC3C7),
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        left: 10.0, bottom: 10.0),
-                                    hintText: 'State',
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                    )),
+                                color: Color(0xFFBDC3C7),
+                                borderRadius: BorderRadius.circular(20.0),
                               ),
-                            ),
-                            SizedBox(
-                              width: widt * 0.02,
-                            ),
-                            Container(
-                              width: widt * 0.22,
-                              height: heght * 0.04,
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFBDC3C7),
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        left: 10.0, bottom: 10.0),
-                                    hintText: 'Country',
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                    )),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      pickMedia();
+                                    },
+                                    child: mediaFile != null
+                                        ? category == 'Photo'
+                                            ? Image.file(mediaFile!,
+                                                width: 200,
+                                                height: 200,
+                                                fit: BoxFit.cover)
+                                            : Text(
+                                                "Video Selected: ${mediaFile!.path.split('/').last}")
+                                        : Text("No file selected",
+                                            style: TextStyle(fontSize: 16)),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -299,170 +518,54 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                   ),
-
-                  // Category
-
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5.0),
-                    child: Text("Select Category",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        )),
-                  ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0),
-                        child: Row(
-                          children: [
-                            ChoiceChip(
-                              label: Text(
-                                "Photo",
-                                style: TextStyle(
-                                  color: category == 'Photo'
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                              showCheckmark: false,
-                              selected: category == 'Photo',
-                              selectedColor: Colors.green,
-                              backgroundColor: Color(0xFFBDC3C7),
-                              labelPadding: EdgeInsets.symmetric(
-                                horizontal: 15.0,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0),
-                                side: BorderSide(
-                                    color: category == 'Photo'
-                                        ? Colors.green
-                                        : Colors.transparent),
-                              ),
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  category = 'Photo';
-                                });
-                              },
-                            ),
-                            SizedBox(
-                              width: widt * 0.02,
-                            ),
-                            ChoiceChip(
-                              label: Text(
-                                "Video",
-                                style: TextStyle(
-                                  color: category == 'Video'
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                              showCheckmark: false,
-                              selected: category == 'Video',
-                              selectedColor: Colors.green,
-                              backgroundColor: Color(0xFFBDC3C7),
-                              labelPadding: EdgeInsets.symmetric(
-                                horizontal: 15.0,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  category = 'Video';
-                                });
-                              },
-                            ),
-                            SizedBox(
-                              width: widt * 0.03,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: widt * 0.48,
-                                  height: heght * 0.1,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFBDC3C7),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          pickMedia();
-                                        },
-                                        child: mediaFile != null
-                                            ? category == 'Photo'
-                                                ? Image.file(mediaFile!,
-                                                    width: 200,
-                                                    height: 200,
-                                                    fit: BoxFit.cover)
-                                                : Text(
-                                                    "Video Selected: ${mediaFile!.path.split('/').last}")
-                                            : Text("No file selected",
-                                                style: TextStyle(fontSize: 16)),
-                                      ),
-                                      
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AdvanceOptions()));
-                          },
-                          child: RichText(
-                              text: TextSpan(
-                                  text: "Advance Option",
-                                  style: TextStyle(
-                                      color: Color(0xFF2ECC71), fontSize: 20.0),
-                                  children: [
-                                TextSpan(
-                                  text: " .",
-                                  style: TextStyle(color: Color(0xFFBDC3C7)),
-                                )
-                              ])),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 80.0, top: 5.0),
-                        child: Mybutton(
-                            bg: Color(0xFF2ECC71),
-                            color: Color(0xFFBDC3C7),
-                            text: 'Submet',
-                            onPressed: () {
-                              print(_titleController.text);
-                              print(_descriptionController.text);
-                              if (_titleController.text.isNotEmpty &&
-                                  _descriptionController.text.isNotEmpty) {
-                                eventcre.adddata(
-                                  _titleController.text.toString(),
-                                  _descriptionController.text.toString(),
-                                );
-                              } else {
-                                print('filee ');
-                              }
-                            }),
-                      )
-                    ],
-                  )
                 ],
               ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdvanceOptions()));
+                      },
+                      child: RichText(
+                          text: TextSpan(
+                              text: "Advance Option",
+                              style: TextStyle(
+                                  color: Color(0xFF2ECC71), fontSize: 20.0),
+                              children: [
+                            TextSpan(
+                              text: " .",
+                              style: TextStyle(color: Color(0xFFBDC3C7)),
+                            )
+                          ])),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 80.0, top: 5.0),
+                    child: Mybutton(
+                        bg: Color(0xFF2ECC71),
+                        color: Color(0xFFBDC3C7),
+                        text: 'Submet',
+                        onPressed: () {
+                          print(_titleController.text);
+                          print(_descriptionController.text);
+                          if (_titleController.text.isNotEmpty &&
+                              _descriptionController.text.isNotEmpty) {
+                            eventcre.adddata(
+                              _titleController.text.toString(),
+                              _descriptionController.text.toString(),
+                            );
+                          } else {
+                            print('filee ');
+                          }
+                        }),
+                  )
+                ],
+              )
             ],
           ),
         ),

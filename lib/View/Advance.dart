@@ -43,27 +43,33 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                     ),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  width: width*1,
-                  height: heigth*0.1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Private",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                          )),
-                      Obx(() => Switch(
-                          activeColor: Color(0xFF2ECC71), // Color when ON
-                          activeTrackColor:
-                              Colors.greenAccent, // Track color when ON
-                          inactiveThumbColor:
-                              Color(0xFF33495D), // Thumb color when OFF
-                          inactiveTrackColor:
-                              Color.fromARGB(255, 98, 99, 100), // Track color when OFF
-                          value: private.isprivate.value,
-                          onChanged: (value) => private.toggleprive())),
-                    ],
+                  width: width * 1,
+                  height: heigth * 0.1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Obx(
+                          () =>
+                              Text(private.isprivate.value ? "Private" : "Public",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                  )),
+                        ),
+                        Obx(() => Switch(
+                            activeColor: Color(0xFF2ECC71), // Color when ON
+                            activeTrackColor:
+                                Colors.greenAccent, // Track color when ON
+                            inactiveThumbColor:
+                                Color(0xFF33495D), // Thumb color when OFF
+                            inactiveTrackColor: Color.fromARGB(
+                                255, 98, 99, 100), // Track color when OFF
+                            value: private.isprivate.value,
+                            onChanged: (value) => private.toggleprive())),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -99,9 +105,18 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.check_circle,
-                        color: Color(0xFFBDC3C7),
+                      Obx(
+                        () => GestureDetector(
+                          onTap: () {
+                            private.toggelsele();
+                          },
+                          child: Icon(
+                            Icons.check_circle,
+                            color: private.isselected.value
+                                ? Color(0xFF2ECC71)
+                                : Color(0xFFBDC3C7),
+                          ),
+                        ),
                       ),
                       Image.asset(
                         'assests/images/theme.jpg',

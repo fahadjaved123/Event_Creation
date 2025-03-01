@@ -30,4 +30,10 @@ class EventController extends GetxController {
   void toggleprive(){
     isprivate.toggle();
   }
+  // for 
+  var isselected=false.obs;
+  // to
+  void toggelsele(){
+    isselected.toggle();
+  }
 }
