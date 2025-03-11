@@ -10,7 +10,6 @@ class EventCategory extends StatefulWidget {
 class _EventCategoryState extends State<EventCategory> {
   String selectedCategory = '';
   final List<String> finalt = [];
-  @override
   final List<String> eventCategories = [
     "Concerts",
     "Workshops",

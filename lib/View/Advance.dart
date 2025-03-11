@@ -14,8 +14,8 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
   final private = Get.put(EventController());
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width * 1;
-    final heigth = MediaQuery.of(context).size.height * 1;
+    final screenwidth = MediaQuery.of(context).size.width;
+    final screenheigth = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color(0xFF33495D),
       appBar: AppBar(
@@ -23,18 +23,23 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
         backgroundColor: Color(0xFF33495D),
         title: Text(
           "Advance Options",
-          style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: screenwidth * 0.11, fontWeight: FontWeight.bold),
         ),
         foregroundColor: Color(0xFF2ECC71),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 20.0, top: 5.0),
+        padding: EdgeInsets.only(
+            left: screenwidth * 0.04, top: screenheigth * 0.015),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                padding: EdgeInsets.only(
+                  left: screenwidth * 0.03,
+                  right: screenwidth * 0.02,
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -43,20 +48,20 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                     ),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  width: width * 1,
-                  height: heigth * 0.1,
+                  width: screenwidth * 1,
+                  height: screenheigth * 0.1,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Obx(
-                          () =>
-                              Text(private.isprivate.value ? "Private" : "Public",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.0,
-                                  )),
+                          () => Text(
+                              private.isprivate.value ? "Private" : "Public",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                              )),
                         ),
                         Obx(() => Switch(
                             activeColor: Color(0xFF2ECC71), // Color when ON
@@ -74,7 +79,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                 ),
               ),
               SizedBox(
-                height: heigth * 0.02,
+                height: screenheigth * 0.02,
               ),
               GestureDetector(
                   onTap: () {
@@ -91,14 +96,14 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                     ),
                   )),
               SizedBox(
-                height: heigth * 0.02,
+                height: screenheigth * 0.02,
               ),
               Text(
                 "Themes",
                 style: TextStyle(color: Color(0xFFBDC3C7), fontSize: 30.0),
               ),
               SizedBox(
-                height: heigth * 0.02,
+                height: screenheigth * 0.02,
               ),
               Row(
                 children: [
@@ -120,13 +125,13 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                       ),
                       Image.asset(
                         'assests/images/theme.jpg',
-                        height: heigth * 0.1,
-                        width: width * 0.27,
+                        height: screenheigth * 0.1,
+                        width: screenwidth * 0.27,
                       ),
                     ],
                   ),
                   SizedBox(
-                    width: width * 0.01,
+                    width: screenwidth * 0.01,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,22 +142,22 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                       ),
                       Image.asset(
                         'assests/images/theme.jpg',
-                        height: heigth * 0.1,
-                        width: width * 0.27,
+                        height: screenheigth * 0.1,
+                        width: screenwidth * 0.27,
                       ),
                     ],
                   ),
                 ],
               ),
               SizedBox(
-                height: heigth * 0.01,
+                height: screenheigth * 0.01,
               ),
               Text(
                 "Lighting",
                 style: TextStyle(color: Color(0xFFBDC3C7), fontSize: 30.0),
               ),
               SizedBox(
-                height: heigth * 0.01,
+                height: screenheigth * 0.01,
               ),
               Row(
                 children: [
@@ -165,13 +170,13 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                       ),
                       Image.asset(
                         'assests/images/theme.jpg',
-                        height: heigth * 0.1,
-                        width: width * 0.27,
+                        height: screenheigth * 0.1,
+                        width: screenwidth * 0.27,
                       ),
                     ],
                   ),
                   SizedBox(
-                    width: width * 0.01,
+                    width: screenwidth * 0.01,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,15 +187,15 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                       ),
                       Image.asset(
                         'assests/images/theme.jpg',
-                        height: heigth * 0.1,
-                        width: width * 0.27,
+                        height: screenheigth * 0.1,
+                        width: screenwidth * 0.27,
                       ),
                     ],
                   ),
                 ],
               ),
               SizedBox(
-                height: heigth * 0.01,
+                height: screenheigth * 0.01,
               ),
 
               // Music Playlist
@@ -207,7 +212,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                     style: TextStyle(color: Color(0xFFBDC3C7), fontSize: 15.0),
                   ),
                   SizedBox(
-                    height: heigth * 0.01,
+                    height: screenheigth * 0.01,
                   ),
                   Row(
                     children: [
@@ -217,11 +222,11 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                               borderRadius: BorderRadius.circular(70.0),
                               child: Image.asset(
                                 'assests/images/spotify.png',
-                                height: 50,
-                                width: 50,
+                                height: screenheigth * 0.05,
+                                width: screenwidth * 0.09,
                               )),
                           SizedBox(
-                            width: width * 0.01,
+                            width: screenwidth * 0.01,
                           ),
                           Text(
                             'Spotify',
@@ -231,7 +236,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                         ],
                       ),
                       SizedBox(
-                        width: width * 0.03,
+                        width: screenwidth * 0.03,
                       ),
                       Text(
                         'Or',
@@ -239,7 +244,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                             TextStyle(color: Color(0xFFBDC3C7), fontSize: 15.0),
                       ),
                       SizedBox(
-                        width: width * 0.03,
+                        width: screenwidth * 0.03,
                       ),
                       Row(
                         children: [
@@ -247,11 +252,11 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                               borderRadius: BorderRadius.circular(100.0),
                               child: Image.asset(
                                 "assests/images/pngaaa.com-69724.png",
-                                height: 50,
-                                width: 50,
+                                height: screenheigth * 0.05,
+                                width: screenwidth * 0.1,
                               )),
                           SizedBox(
-                            width: width * 0.01,
+                            width: screenwidth * 0.01,
                           ),
                           Text(
                             'deezer',
@@ -265,7 +270,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                 ],
               ),
               SizedBox(
-                height: heigth * 0.01,
+                height: screenheigth * 0.01,
               ),
               Row(
                 children: [
@@ -274,7 +279,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                     color: Color(0xFFBDC3C7),
                   ),
                   SizedBox(
-                    width: width * 0.01,
+                    width: screenheigth * 0.01,
                   ),
                   Text(
                     'Select a pre-made playlist',
@@ -285,7 +290,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                 ],
               ),
               SizedBox(
-                height: heigth * 0.01,
+                height: screenheigth * 0.01,
               ),
               Row(
                 children: [
@@ -294,7 +299,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                     color: Color(0xFFBDC3C7),
                   ),
                   SizedBox(
-                    width: width * 0.01,
+                    width: screenwidth * 0.01,
                   ),
                   Text(
                     'Create a custom Playlist',
@@ -305,7 +310,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                 ],
               ),
               SizedBox(
-                height: heigth * 0.01,
+                height: screenheigth * 0.01,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -318,7 +323,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                     ),
                   ),
                   SizedBox(
-                    height: heigth * 0.01,
+                    height: screenheigth * 0.01,
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -332,11 +337,12 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                               color: Color(0xFFBDC3C7),
                             ),
                             Image.asset('assests/images/theme.jpg',
-                                height: heigth * 0.1, width: width * 0.27),
+                                height: screenheigth * 0.1,
+                                width: screenwidth * 0.27),
                           ],
                         ),
                         SizedBox(
-                          width: width * 0.01,
+                          width: screenwidth * 0.01,
                         ),
                         Row(
                           children: [
@@ -346,11 +352,12 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                                   color: Color(0xFFBDC3C7)),
                             ),
                             Image.asset('assests/images/theme.jpg',
-                                height: heigth * 0.1, width: width * 0.27),
+                                height: screenheigth * 0.1,
+                                width: screenwidth * 0.27),
                           ],
                         ),
                         SizedBox(
-                          width: width * 0.01,
+                          width: screenwidth * 0.01,
                         ),
                         Row(
                           children: [
@@ -362,7 +369,8 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                               ),
                             ),
                             Image.asset('assests/images/theme.jpg',
-                                height: heigth * 0.1, width: width * 0.27),
+                                height: screenheigth * 0.1,
+                                width: screenwidth * 0.27),
                           ],
                         ),
                       ],
@@ -371,7 +379,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                 ],
               ),
               SizedBox(
-                height: heigth * 0.01,
+                height: screenheigth * 0.01,
               ),
               // Buttons
               Row(
@@ -391,7 +399,7 @@ class _AdvanceOptionsState extends State<AdvanceOptions> {
                     child: Text('Apply'),
                   ),
                   SizedBox(
-                    width: width * 0.02,
+                    width: screenwidth * 0.02,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 20.0),

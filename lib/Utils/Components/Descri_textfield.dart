@@ -18,13 +18,21 @@ class Mydes extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0)
         ),
         height: 180,
-        child: TextField(
+        child: TextFormField(
           maxLines: 5,
           controller: controller,
           decoration: InputDecoration(
               border: UnderlineInputBorder(
             borderSide: BorderSide.none,
           )),
+          validator: (value){
+            if(value==null || value.isEmpty){
+              return 'Please enter description';
+            }
+            else{
+              return null;
+            }
+          },
         ),
       ),
     );

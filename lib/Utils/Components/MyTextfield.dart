@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Mytextfield extends StatelessWidget {
+class Mytext_field extends StatelessWidget {
   final controller;
   final hinttext;
-  Mytextfield({
+  Mytext_field({
     super.key,
     required this.controller,
     this.hinttext,
